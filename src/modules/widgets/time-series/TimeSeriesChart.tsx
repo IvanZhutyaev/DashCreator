@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import type { WidgetConfig } from '../base/types';
 
@@ -8,7 +9,7 @@ interface TimeSeriesChartProps {
   height: number;
 }
 
-export function TimeSeriesChart({ data, config }: TimeSeriesChartProps) {
+export const TimeSeriesChart = memo(function TimeSeriesChart({ data, config }: TimeSeriesChartProps) {
   const chartType = (config.chartType as string) || 'line';
   const xAxisField = (config.xAxisField as string) || 'date';
   const yAxisFields = (config.yAxisFields as string[]) || [];
@@ -52,5 +53,4 @@ export function TimeSeriesChart({ data, config }: TimeSeriesChartProps) {
       </ResponsiveContainer>
     </div>
   );
-}
-
+});

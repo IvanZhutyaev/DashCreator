@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 import type { WidgetConfig } from '../base/types';
 import { formatNumber } from '@/lib/utils';
@@ -9,7 +10,7 @@ interface MetricCardDisplayProps {
   height: number;
 }
 
-export function MetricCardDisplay({ config }: MetricCardDisplayProps) {
+export const MetricCardDisplay = memo(function MetricCardDisplay({ config }: MetricCardDisplayProps) {
   const title = (config.title as string) || 'Метрика';
   const value = (config.value as number) || 12345;
   const delta = (config.delta as number) || 12.5;
@@ -42,5 +43,4 @@ export function MetricCardDisplay({ config }: MetricCardDisplayProps) {
       </div>
     </div>
   );
-}
-
+});

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/Button';
 import { useDashboardStore } from '@/core/stores/dashboardStore';
 import { Input } from '@/components/ui/Input';
 import { ExportMenu } from '@/modules/sharing/components/ExportMenu';
+import { RealtimeIndicator } from './RealtimeIndicator';
 
 interface ToolbarProps {
   onSave: () => void;
@@ -30,6 +31,8 @@ export function Toolbar({ onSave, onToggleLeftPanel, onToggleRightPanel }: Toolb
         <Button variant="ghost" size="icon" onClick={redo} disabled={!canRedo()}>
           <Redo className="w-4 h-4" />
         </Button>
+        <div className="w-px h-6 bg-border mx-2" />
+        <RealtimeIndicator />
       </div>
 
       <div className="flex items-center gap-4">

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Plus, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { useDashboardStore } from '@/core/stores/dashboardStore';
 import type { Filter } from '@/modules/dashboard/types';
 import { generateId } from '@/lib/utils';
+import { debounce } from '@/lib/utils';
 
 const FILTER_OPERATORS = [
   { value: 'equals', label: 'Равно' },
@@ -24,6 +25,15 @@ export function FiltersPanel() {
   const { currentDashboard, updateDashboard } = useDashboardStore();
   const [filters, setFilters] = useState<Filter[]>(currentDashboard?.globalFilters || []);
 
+  // Дебаунс для обновления дашборда
+  const debouncedUpdate = useMemo(
+    () =>
+      debounce((newFilters: Filter[]) => {
+        updateDashboard({ globalFilters: newFilters });
+      }, 300),
+    [updateDashboard]
+  );
+
   const handleAddFilter = () => {
     const newFilter: Filter = {
       id: generateId(),
@@ -33,7 +43,7 @@ export function FiltersPanel() {
     };
     const newFilters = [...filters, newFilter];
     setFilters(newFilters);
-    updateDashboard({ globalFilters: newFilters });
+    debouncedUpdate(newFilters);
   };
 
   const handleRemoveFilter = (id: string) => {
@@ -45,7 +55,7 @@ export function FiltersPanel() {
   const handleUpdateFilter = (id: string, updates: Partial<Filter>) => {
     const newFilters = filters.map((f) => (f.id === id ? { ...f, ...updates } : f));
     setFilters(newFilters);
-    updateDashboard({ globalFilters: newFilters });
+    debouncedUpdate(newFilters);
   };
 
   return (
@@ -110,4 +120,3 @@ export function FiltersPanel() {
     </Card>
   );
 }
-

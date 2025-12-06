@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import { FiltersPanel } from './FiltersPanel';
 import { DataBindingPanel } from './DataBindingPanel';
+import { SharingPanel } from '@/modules/sharing/components/SharingPanel';
 
 export function PropertiesPanel() {
   const { selectedWidgetId, widgets, updateWidget } = useDashboardStore();
@@ -34,10 +35,11 @@ export function PropertiesPanel() {
   return (
     <div className="p-4 space-y-4">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="widget">Виджет</TabsTrigger>
           <TabsTrigger value="data">Данные</TabsTrigger>
           <TabsTrigger value="filters">Фильтры</TabsTrigger>
+          <TabsTrigger value="sharing">Шеринг</TabsTrigger>
         </TabsList>
 
         <TabsContent value="widget" className="mt-4">
@@ -63,6 +65,10 @@ export function PropertiesPanel() {
 
         <TabsContent value="filters" className="mt-4">
           <FiltersPanel />
+        </TabsContent>
+
+        <TabsContent value="sharing" className="mt-4">
+          <SharingPanel />
         </TabsContent>
       </Tabs>
     </div>
