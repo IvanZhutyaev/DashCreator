@@ -2,6 +2,7 @@ import { Save, PanelLeft, PanelRight, Undo, Redo } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useDashboardStore } from '@/core/stores/dashboardStore';
 import { Input } from '@/components/ui/Input';
+import { ExportMenu } from '@/modules/sharing/components/ExportMenu';
 
 interface ToolbarProps {
   onSave: () => void;
@@ -40,6 +41,7 @@ export function Toolbar({ onSave, onToggleLeftPanel, onToggleRightPanel }: Toolb
             placeholder="Название дашборда"
           />
         )}
+        <ExportMenu />
         <Button onClick={onSave}>
           <Save className="w-4 h-4 mr-2" />
           Сохранить

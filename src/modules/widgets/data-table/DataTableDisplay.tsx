@@ -1,4 +1,5 @@
 import type { WidgetConfig } from '../base/types';
+import { VirtualizedTable } from '@/components/ui/VirtualizedTable';
 
 interface DataTableDisplayProps {
   data: unknown[];
@@ -7,9 +8,9 @@ interface DataTableDisplayProps {
   height: number;
 }
 
-export function DataTableDisplay({ config }: DataTableDisplayProps) {
+export function DataTableDisplay({ data, config, height }: DataTableDisplayProps) {
   const columns = (config.columns as string[]) || [];
-  const pageSize = (config.pageSize as number) || 10;
+  const useVirtualization = (config.useVirtualization as boolean) !== false;
 
   // Моковые данные
   const mockData = [
@@ -20,6 +21,19 @@ export function DataTableDisplay({ config }: DataTableDisplayProps) {
 
   const tableData = (data.length > 0 ? data : mockData) as Array<Record<string, unknown>>;
   const displayColumns = columns.length > 0 ? columns : Object.keys(tableData[0] || {});
+
+  // Виртуализация для больших таблиц (>50 строк)
+  if (useVirtualization && tableData.length > 50) {
+    return (
+      <div className="w-full h-full p-4">
+        <VirtualizedTable data={tableData} config={{ ...config, columns: displayColumns }} height={height - 32} />
+      </div>
+    );
+  }
+
+  // Обычная таблица для малых объемов
+  const pageSize = (config.pageSize as number) || 10;
+  const displayData = tableData.slice(0, pageSize);
 
   return (
     <div className="w-full h-full p-4 overflow-auto">
@@ -34,7 +48,7 @@ export function DataTableDisplay({ config }: DataTableDisplayProps) {
           </tr>
         </thead>
         <tbody>
-          {tableData.slice(0, pageSize).map((row, idx) => (
+          {displayData.map((row, idx) => (
             <tr key={idx} className="border-b hover:bg-muted/50">
               {displayColumns.map((col) => (
                 <td key={col} className="p-2">

@@ -32,6 +32,7 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@tanstack/react-table": "^8.10.7",
+    "@tanstack/react-virtual": "^3.0.1",
     "recharts": "^2.10.3",
     "date-fns": "^2.30.0",
     "zod": "^3.22.4",

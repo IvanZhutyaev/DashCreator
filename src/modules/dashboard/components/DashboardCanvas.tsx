@@ -5,7 +5,8 @@ import { GRID_COLUMNS, GRID_ROW_HEIGHT, GRID_GAP } from '@/core/constants';
 import { widgetRegistry } from '@/modules/widgets';
 
 export function DashboardCanvas() {
-  const { widgets, selectedWidgetId, setSelectedWidget, updateWidget } = useDashboardStore();
+  const { widgets, selectedWidgetId, setSelectedWidget, updateWidget, currentDashboard } =
+    useDashboardStore();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -37,7 +38,8 @@ export function DashboardCanvas() {
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
       <div
-        className="relative w-full min-h-full"
+        id="dashboard-canvas"
+        className="relative w-full min-h-full bg-background"
         style={{
           display: 'grid',
           gridTemplateColumns: `repeat(${GRID_COLUMNS}, 1fr)`,
