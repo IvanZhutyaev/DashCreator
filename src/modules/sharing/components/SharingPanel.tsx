@@ -70,7 +70,7 @@ export function SharingPanel() {
           <CardTitle className="flex items-center gap-2">
             <Share2 className="w-5 h-5" />
             Настройки доступа
-          </CardHeader>
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
